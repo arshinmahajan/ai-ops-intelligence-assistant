@@ -3,3 +3,4 @@ venv/
 __pycache__/
 *.pyc
 enterprise_ops_data.csv
+.streamlit/secrets.toml
