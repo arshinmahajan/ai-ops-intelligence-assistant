@@ -14,11 +14,11 @@ Enterprise operations teams spend hours every week manually compiling KPI report
 ---
 ## 📸 Live Demo
 
-![Dashboard Overview](assets/AI Operations Assistant - Dashboard.png)
+![Dashboard Overview](assets/AI%20Operations%20Assistant%20-%20Dashboard.png)
 
-![Anomaly Detection](assets/AI operations assistant - anomaly.png)
+![Anomaly Detection](assets/AI%20operations%20assistant%20-%20anomaly.png)
 
-![KPI Breakdown](assets/AI Operations Assistant - KPI.png)
+![KPI Breakdown](assets/AI%20Operations%20Assistant%20-%20KPI.png)
 
 ## Core User Journeys
 
