@@ -1,6 +1,7 @@
 # 🚀 AI Operations Intelligence Assistant
 
 > Eliminate manual reporting lag. Accelerate enterprise insight discovery.
+### 🌐 [Click Here for Live Demo](https://ai-ops-intelligence-assistant-f5bhhcylc8wq3lguenfk7i.streamlit.app/)
 
 ## Executive Summary
 
