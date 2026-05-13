@@ -130,14 +130,15 @@ DataFrame columns available:
 """
 
     agent = create_pandas_dataframe_agent(
-        llm=llm,
-        df=_df,
-        verbose=False,
-        prefix=system_prompt,
-        allow_dangerous_code=True,
-        handle_parsing_errors=True,
-        max_iterations=8,
-    )
+    llm=llm,
+    df=_df,
+    verbose=False,
+    prefix=system_prompt,
+    allow_dangerous_code=True,
+    handle_parsing_errors=True,
+    max_iterations=8,
+    agent_executor_kwargs={"handle_parsing_errors": True},
+)
     return agent
 
 
@@ -255,7 +256,11 @@ if prompt := st.chat_input("Ask a question about your operations data..."):
             with st.spinner("Analysing your data…"):
                 try:
                     result = agent.invoke({"input": prompt})
-                    response = result.get("output", "I wasn't able to generate an answer. Please rephrase your question.")
+                    output = result.get("output", "")
+                    if "Could not parse LLM output:" in output:
+                        response = output.replace("Could not parse LLM output:`", "").replace("`", "").strip()
+                    else:
+                        response = output if output else "I wasn't able to generate an answer. Please rephrase your question."
                 except Exception as e:
                     response = (
                         f"⚠️ **Analysis error:** {str(e)}\n\n"

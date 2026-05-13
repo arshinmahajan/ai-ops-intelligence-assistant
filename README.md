@@ -12,6 +12,13 @@ Enterprise operations teams spend hours every week manually compiling KPI report
 - LLM integration via LangChain connecting natural language to live datasets
 
 ---
+## 📸 Live Demo
+
+![Dashboard Overview](assets/AI Operations Assistant - Dashboard.png)
+
+![Anomaly Detection](assets/AI operations assistant - anomaly.png)
+
+![KPI Breakdown](assets/AI Operations Assistant - KPI.png)
 
 ## Core User Journeys
 
