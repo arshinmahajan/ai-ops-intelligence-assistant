@@ -98,7 +98,7 @@ def load_data(path: str = "enterprise_ops_data.csv") -> pd.DataFrame:
 # ── LLM + Agent factory (cached by resource) ─────────────────────────────────
 @st.cache_resource
 def build_agent(_df: pd.DataFrame):
-    api_key = os.getenv("OPENAI_API_KEY", "")
+    api_key = os.getenv("OPENAI_API_KEY", "") or st.secrets.get("OPENAI_API_KEY", "")
     if not api_key:
         return None
 
