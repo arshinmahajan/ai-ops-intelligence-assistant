@@ -91,6 +91,55 @@ st.markdown("""
 # ── Data Loading (cached) ─────────────────────────────────────────────────────
 @st.cache_data
 def load_data(path: str = "enterprise_ops_data.csv") -> pd.DataFrame:
+    import os
+    if not os.path.exists(path):
+        import numpy as np
+        from datetime import datetime, timedelta
+        import random
+        random.seed(42)
+        np.random.seed(42)
+        END_DATE = datetime(2026, 5, 13)
+        START_DATE = END_DATE - timedelta(days=182)
+        REGIONS = ["NA", "EMEA", "APAC", "LATAM"]
+        REGION_WEIGHTS = [0.35, 0.25, 0.25, 0.15]
+        def random_date(start, end):
+            delta = end - start
+            return start + timedelta(seconds=random.randint(0, int(delta.total_seconds())))
+        rows = []
+        for i in range(1000):
+            region = np.random.choice(REGIONS, p=REGION_WEIGHTS)
+            date = random_date(START_DATE, END_DATE)
+            base_costs = {"NA": 420, "EMEA": 510, "APAC": 380, "LATAM": 290}
+            base_pt = {"NA": 280, "EMEA": 310, "APAC": 260, "LATAM": 240}
+            processing_time = max(50, int(np.random.normal(base_pt[region], 60)))
+            operational_cost = max(50, round(np.random.normal(base_costs[region], 80), 2))
+            sla_breached = np.random.rand() < 0.08
+            rows.append({
+                "Transaction_ID": f"TXN-{i+1:05d}",
+                "Region": region,
+                "Date": date.strftime("%Y-%m-%d"),
+                "Processing_Time_ms": processing_time,
+                "SLA_Breached": sla_breached,
+                "Operational_Cost": operational_cost,
+            })
+        df = pd.DataFrame(rows)
+        df["Date"] = pd.to_datetime(df["Date"])
+        emea_nov_mask = (
+            (df["Region"] == "EMEA") &
+            (df["Date"].dt.year == 2025) &
+            (df["Date"].dt.month == 11)
+        )
+        df.loc[emea_nov_mask, "Operational_Cost"] = (
+            df.loc[emea_nov_mask, "Operational_Cost"] * 4.0
+        ).round(2)
+        df.loc[emea_nov_mask, "SLA_Breached"] = (
+            np.random.rand(emea_nov_mask.sum()) < 0.72
+        )
+        df.loc[emea_nov_mask, "Processing_Time_ms"] = (
+            df.loc[emea_nov_mask, "Processing_Time_ms"] * 2.5
+        ).astype(int)
+        df["Date"] = df["Date"].dt.strftime("%Y-%m-%d")
+        df.to_csv(path, index=False)
     df = pd.read_csv(path, parse_dates=["Date"])
     return df
 
